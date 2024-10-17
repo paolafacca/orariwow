@@ -10,7 +10,7 @@ function getReturnTime(dayOfWeek) {
         'lunedì': '19:45',
         'martedì': '18:45',
         'mercoledì': '18:45',
-        'giovedì': '19:45',
+        'giovedì': '18:45',
         'venerdì': '18:45',
         'sabato': 'xx:xx',
         'domenica': 'xx:xx'
