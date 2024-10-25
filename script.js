@@ -11,7 +11,7 @@ function getReturnTime(dayOfWeek) {
         'martedì': '19:45',
         'mercoledì': '18:45',
         'giovedì': '18:45',
-        'venerdì': '18:45',
+        'venerdì': '12:45',
         'sabato': 'xx:xx',
         'domenica': 'xx:xx'
     };
