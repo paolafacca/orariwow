@@ -8,9 +8,9 @@ function getDayOfWeek(date) {
 function getReturnTime(dayOfWeek) {
     const returnTimes = {
         'lunedì': '19:45',
-        'martedì': '18:45',
-        'mercoledì': '18:45',
-        'giovedì': '18:45',
+        'martedì': '19:45',
+        'mercoledì': '19:45',
+        'giovedì': '19:45',
         'venerdì': '12:45',
         'sabato': 'xx:xx',
         'domenica': 'xx:xx'
