@@ -7,11 +7,11 @@ function getDayOfWeek(date) {
 // Funzione per ottenere l'orario di ritorno in base al giorno della settimana
 function getReturnTime(dayOfWeek) {
     const returnTimes = {
-        'lunedì': '19:45',
+        'lunedì': '17:45',
         'martedì': '19:45',
-        'mercoledì': '19:45',
-        'giovedì': '19:45',
-        'venerdì': '12:45',
+      //  'mercoledì': '19:45',
+      //  'giovedì': '19:45',
+        'venerdì': '20:22',
         'sabato': 'xx:xx',
         'domenica': 'xx:xx'
     };
