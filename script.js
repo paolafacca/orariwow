@@ -73,6 +73,7 @@ window.onload = function() {
     const dateElement = document.getElementById("current-date");
     const returnTimeElement = document.getElementById("return-time");
     const parentElement = document.getElementById("who-returns");
+    const destinationElement = document.getElementById("destination");
 
     const today = new Date();
     const dayOfWeek = getDayOfWeek(today);
@@ -107,7 +108,5 @@ window.onload = function() {
 
     returnTimeElement.textContent = returnTime;
     parentElement.textContent = whoReturns;
-
-    const destinationElement = document.getElementById("destination");
     destinationElement.textContent = destination;
 };
