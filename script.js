@@ -42,6 +42,18 @@ function mapParents(groups) {
     return map;
 }
 
+// Function to create a day → destination map
+function mapDestinations(groups) {
+    const map = {};
+    groups.forEach(group => {
+        const { days, destination } = group;
+        days.forEach(d => {
+            map[d] = destination;
+        });
+    });
+    return map;
+}
+
 // Function to get the return time for a given day number
 function getReturnTime(dayNumber, timetableMap) {
     return timetableMap[dayNumber] || 'xx:xx';
@@ -50,6 +62,11 @@ function getReturnTime(dayNumber, timetableMap) {
 // Function to get the parent for a given day number
 function getParentForDay(dayNumber, parentMap) {
     return parentMap[dayNumber] || 'nessuno, mi arrangio';
+}
+
+// Function to get the destination for a given day number
+function getDestinationForDay(dayNumber, destinationMap) {
+    return destinationMap[dayNumber] || 'sconosciuto';
 }
 
 window.onload = function() {
@@ -66,9 +83,10 @@ window.onload = function() {
     dateElement.textContent = `${dayOfWeek}, ${formattedDate}`;
 
     const timetableMap = mapTimetable([
-        { days: [1, 2, 3, 4], time: '19:20' },  // da lunedì a giovedì
-        { days: [5], time: '17:50' },          // venerdì
-        { days: [6, 7], time: 'xx:xx' }          // sabato e domenica
+        { days: [1, 3], time: '19:20'},      // lunedì e mercoledì
+         { days: [1, 3], time: '20:00'},     //martedì e giovedì
+        { days: [5], time: '17:50'},          // venerdì
+        { days: [6, 7], time: 'xx:xx' }         // sabato e domenica
     ]);
 
     const parentMap = mapParents([
@@ -77,9 +95,19 @@ window.onload = function() {
         { days: [5], parent: 'Vanessa' }  //ven
     ]);
 
+    const destinationMap = mapDestinations([
+    { days: [1, 3, 5], destination: 'Trieste Airport' },                   // lun, mar, mer
+    { days: [2, 4], destination: 'Ronchi dei Legionari Nord' }            // gio, ven
+    { days: [6, 7], destination: 'nessuna parte' }                        //sab, dom
+]);
+
     const returnTime = getReturnTime(dayNumber, timetableMap);
     const whoReturns = getParentForDay(dayNumber, parentMap);
+    const destination = getDestinationForDay(dayNumber, destinationMap);
 
     returnTimeElement.textContent = returnTime;
     parentElement.textContent = whoReturns;
+
+    const destinationElement = document.getElementById("destination");
+    destinationElement.textContent = destination;
 };
