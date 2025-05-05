@@ -66,7 +66,7 @@ function getParentForDay(dayNumber, parentMap) {
 
 // Function to get the destination for a given day number
 function getDestinationForDay(dayNumber, destinationMap) {
-    return destinationMap[dayNumber] || 'sconosciuto';
+    return destinationMap[dayNumber] || 'nessuna parte.';
 }
 
 window.onload = function() {
@@ -84,23 +84,23 @@ window.onload = function() {
     dateElement.textContent = `${dayOfWeek}, ${formattedDate}`;
 
     const timetableMap = mapTimetable([
-        { days: [1, 3], time: '19:20'},      // lunedì e mercoledì
-         { days: [1, 3], time: '20:00'},     //martedì e giovedì
-        { days: [5], time: '17:50'},          // venerdì
-        { days: [6, 7], time: 'xx:xx' }         // sabato e domenica
+        { days: [1, 3], time: '19:20' },      // lunedì e mercoledì
+        { days: [2, 4], time: '20:00' },      // martedì e giovedì
+        { days: [5], time: '17:50' },         // venerdì
+        { days: [6, 7], time: 'xx:xx' }       // sabato e domenica
     ]);
 
     const parentMap = mapParents([
-        { days: [1, 3], parent: 'papà' },  // lun, mer
-        { days: [2, 4], parent: 'mamma'}, // mar, gio
-        { days: [5], parent: 'Vanessa' }  //ven
+        { days: [1, 3], parent: 'papà' },     // lun, mer
+        { days: [2, 4], parent: 'mamma' },    // mar, gio
+        { days: [5], parent: 'Vanessa' }      // ven
     ]);
 
     const destinationMap = mapDestinations([
-    { days: [1, 3, 5], destination: 'Trieste Airport' },                   // lun, mar, mer
-    { days: [2, 4], destination: 'Ronchi dei Legionari Nord' }            // gio, ven
-    { days: [6, 7], destination: 'nessuna parte' }                        //sab, dom
-]);
+        { days: [1, 3, 5], destination: 'Trieste Airport' },    // lun, mer, ven
+        { days: [2, 4], destination: 'Ronchi dei Legionari Nord' },  // mar, gio
+        { days: [6, 7], destination: 'nessuna parte' }        // sab, dom
+    ]);
 
     const returnTime = getReturnTime(dayNumber, timetableMap);
     const whoReturns = getParentForDay(dayNumber, parentMap);
