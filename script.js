@@ -69,7 +69,7 @@ function getDestinationForDay(dayNumber, destinationMap) {
     return destinationMap[dayNumber] || 'nessuna parte.';
 }
 
-window.onload = function() {
+window.onload = async function() {
     const dateElement = document.getElementById("current-date");
     const returnTimeElement = document.getElementById("return-time");
     const parentElement = document.getElementById("who-returns");
@@ -83,30 +83,42 @@ window.onload = function() {
     const formattedDate = today.toLocaleDateString('it-IT', dateOptions);
     dateElement.textContent = `${dayOfWeek}, ${formattedDate}`;
 
+    // Mapping default values
     const timetableMap = mapTimetable([
-        { days: [1, 3], time: '19:20' },      // lunedì e mercoledì
-        { days: [2, 4], time: '20:00' },      // martedì e giovedì
-        { days: [5], time: '17:50' },         // venerdì
-        { days: [6, 7], time: 'xx:xx' }       // sabato e domenica
+        { days: [1, 3], time: '19:20' },
+        { days: [2, 4], time: '20:00' },
+        { days: [5], time: '17:50' },
+        { days: [6, 7], time: 'xx:xx' }
     ]);
 
     const parentMap = mapParents([
-        { days: [1, 3], parent: 'papà' },     // lun, mer
-        { days: [2, 4], parent: 'mamma' },    // mar, gio
-        { days: [5], parent: 'Vanessa' }      // ven
+        { days: [1, 3], parent: 'papà' },
+        { days: [2, 4], parent: 'mamma' },
+        { days: [5], parent: 'Vanessa' }
     ]);
 
     const destinationMap = mapDestinations([
-        { days: [1, 3, 5], destination: 'Trieste Airport' },    // lun, mer, ven
-        { days: [2, 4], destination: 'Ronchi dei Legionari Nord' },  // mar, gio
-        { days: [6, 7], destination: 'nessuna parte' }        // sab, dom
+        { days: [1, 3, 5], destination: 'Trieste Airport' },
+        { days: [2, 4], destination: 'Ronchi dei Legionari Nord' },
+        { days: [6, 7], destination: 'nessuna parte' }
     ]);
 
-    const returnTime = getReturnTime(dayNumber, timetableMap);
-    const whoReturns = getParentForDay(dayNumber, parentMap);
-    const destination = getDestinationForDay(dayNumber, destinationMap);
+    try {
+        const res = await fetch("https://raw.githubusercontent.com/paolafacca/orariwow/main/data.json");
+        const data = await res.json();
 
-    returnTimeElement.textContent = returnTime;
-    parentElement.textContent = whoReturns;
-    destinationElement.textContent = destination;
+        if (data.bici === true) {
+            returnTimeElement.textContent = "non so a che ora";
+            destinationElement.textContent = "nessuna parte.";
+            parentElement.textContent = "nessuno, mi arrangio";
+        } else {
+            returnTimeElement.textContent = data.time || getReturnTime(dayNumber, timetableMap);
+            destinationElement.textContent = data.place || getDestinationForDay(dayNumber, destinationMap);
+            parentElement.textContent = data.person || getParentForDay(dayNumber, parentMap);
+        }
+    } catch (e) {
+        returnTimeElement.textContent = getReturnTime(dayNumber, timetableMap);
+        destinationElement.textContent = getDestinationForDay(dayNumber, destinationMap);
+        parentElement.textContent = getParentForDay(dayNumber, parentMap);
+    }
 };
