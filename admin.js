@@ -4,15 +4,16 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCurrentData();
 
     // Imposta i valori di default se non esistono
-    if (!localStorage.getItem('arrivalTime')) {
-        localStorage.setItem('arrivalTime', '19:45');
-    }
-    if (!localStorage.getItem('location')) {
-        localStorage.setItem('location', 'Trieste Airport');
-    }
-    if (!localStorage.getItem('person')) {
-        localStorage.setItem('person', 'Papino');
-    }
+    db.ref('orariwow').get().then(snapshot => {
+        if (!snapshot.exists()) {
+            db.ref('orariwow').set({
+                arrivalTime: '19:45',
+                location: 'Trieste Airport',
+                person: 'Papino',
+                bikeMode: false
+            });
+        }
+    });
 });
 
 const ADMIN_PASSWORD = 'Culettobello'; // Password per l'accesso admin
@@ -34,23 +35,22 @@ function login() {
 
 function setBikeMode() {
     // Imposta la modalità bici con messaggio speciale
-    localStorage.setItem('bikeMode', 'true');
-    localStorage.setItem('arrivalTime', 'Non lo so');
-    localStorage.setItem('location', 'Mi arrangio');
-    localStorage.setItem('person', 'Nessuno ');
+    db.ref('orariwow').set({
+        bikeMode: true,
+        arrivalTime: 'Non lo so',
+        location: 'Mi arrangio',
+        person: 'Nessuno'
+    }).then(() => {
+        const successMessage = document.getElementById('successMessage');
+        successMessage.textContent = 'Modalità Bici attivata';
+        successMessage.style.color = '#27ae60';
 
-    // Mostra messaggio di conferma
-    const successMessage = document.getElementById('successMessage');
-    successMessage.textContent = 'Modalità Bici attivata';
-    successMessage.style.color = '#27ae60';
+        resetFormFields();
 
-    // Reset dei campi del form
-    resetFormFields();
-
-    // Nascondi il messaggio dopo 3 secondi
-    setTimeout(() => {
-        successMessage.textContent = '';
-    }, 3000);
+        setTimeout(() => {
+            successMessage.textContent = '';
+        }, 3000);
+    }).catch(err => console.error(err));
 }
 
 function resetFormFields() {
@@ -66,53 +66,55 @@ function resetFormFields() {
 }
 
 function loadCurrentData() {
-    // Se è in modalità bici, non caricare i dati nei form
-    if (localStorage.getItem('bikeMode') === 'true') {
-        resetFormFields();
-        return;
-    }
+    db.ref('orariwow').get().then(snapshot => {
+        const data = snapshot.val() || {};
 
-    // Carica i dati attuali nei campi del form
-    const currentTime = localStorage.getItem('arrivalTime') || '19:45';
-    const currentLocation = localStorage.getItem('location') || 'Trieste Airport';
-    const currentPerson = localStorage.getItem('person') || 'Papino';
-
-    // Imposta i valori nei select se corrispondono alle opzioni predefinite
-    if (currentTime && currentTime !== 'Non impostato') {
-        const timeSelect = document.getElementById('timeSelect');
-        const timeOptions = Array.from(timeSelect.options).map(option => option.value);
-        if (timeOptions.includes(currentTime)) {
-            timeSelect.value = currentTime;
-        } else {
-            timeSelect.value = 'custom';
-            document.getElementById('customTime').style.display = 'block';
-            document.getElementById('customTime').value = currentTime;
+        if (data.bikeMode) {
+            resetFormFields();
+            return;
         }
-    }
 
-    if (currentLocation && currentLocation !== 'Non impostato') {
-        const locationSelect = document.getElementById('locationSelect');
-        const locationOptions = Array.from(locationSelect.options).map(option => option.value);
-        if (locationOptions.includes(currentLocation)) {
-            locationSelect.value = currentLocation;
-        } else {
-            locationSelect.value = 'custom';
-            document.getElementById('customLocation').style.display = 'block';
-            document.getElementById('customLocation').value = currentLocation;
-        }
-    }
+        const currentTime = data.arrivalTime || '19:45';
+        const currentLocation = data.location || 'Trieste Airport';
+        const currentPerson = data.person || 'Papino';
 
-    if (currentPerson && currentPerson !== 'Non impostato') {
-        const personSelect = document.getElementById('personSelect');
-        const personOptions = Array.from(personSelect.options).map(option => option.value);
-        if (personOptions.includes(currentPerson)) {
-            personSelect.value = currentPerson;
-        } else {
-            personSelect.value = 'custom';
-            document.getElementById('customPerson').style.display = 'block';
-            document.getElementById('customPerson').value = currentPerson;
+        // Imposta i valori nei select se corrispondono alle opzioni predefinite
+        if (currentTime && currentTime !== 'Non impostato') {
+            const timeSelect = document.getElementById('timeSelect');
+            const timeOptions = Array.from(timeSelect.options).map(option => option.value);
+            if (timeOptions.includes(currentTime)) {
+                timeSelect.value = currentTime;
+            } else {
+                timeSelect.value = 'custom';
+                document.getElementById('customTime').style.display = 'block';
+                document.getElementById('customTime').value = currentTime;
+            }
         }
-    }
+
+        if (currentLocation && currentLocation !== 'Non impostato') {
+            const locationSelect = document.getElementById('locationSelect');
+            const locationOptions = Array.from(locationSelect.options).map(option => option.value);
+            if (locationOptions.includes(currentLocation)) {
+                locationSelect.value = currentLocation;
+            } else {
+                locationSelect.value = 'custom';
+                document.getElementById('customLocation').style.display = 'block';
+                document.getElementById('customLocation').value = currentLocation;
+            }
+        }
+
+        if (currentPerson && currentPerson !== 'Non impostato') {
+            const personSelect = document.getElementById('personSelect');
+            const personOptions = Array.from(personSelect.options).map(option => option.value);
+            if (personOptions.includes(currentPerson)) {
+                personSelect.value = currentPerson;
+            } else {
+                personSelect.value = 'custom';
+                document.getElementById('customPerson').style.display = 'block';
+                document.getElementById('customPerson').value = currentPerson;
+            }
+        }
+    }).catch(err => console.error(err));
 }
 
 function handleTimeChange() {
@@ -157,55 +159,30 @@ function handlePersonChange() {
 function saveData() {
     const successMessage = document.getElementById('successMessage');
 
-    // Disattiva la modalità bici quando si salvano dati manuali
-    localStorage.removeItem('bikeMode');
-
-    // Ottieni i valori dai campi
     const timeSelect = document.getElementById('timeSelect');
     const locationSelect = document.getElementById('locationSelect');
     const personSelect = document.getElementById('personSelect');
 
-    let arrivalTime = timeSelect.value;
-    let location = locationSelect.value;
-    let person = personSelect.value;
+    let arrivalTime = timeSelect.value === 'custom' ? document.getElementById('customTime').value.trim() : timeSelect.value;
+    let location = locationSelect.value === 'custom' ? document.getElementById('customLocation').value.trim() : locationSelect.value;
+    let person = personSelect.value === 'custom' ? document.getElementById('customPerson').value.trim() : personSelect.value;
 
-    // Se è selezionato "custom", usa il valore del campo di testo
-    if (arrivalTime === 'custom') {
-        arrivalTime = document.getElementById('customTime').value.trim();
-    }
-    if (location === 'custom') {
-        location = document.getElementById('customLocation').value.trim();
-    }
-    if (person === 'custom') {
-        person = document.getElementById('customPerson').value.trim();
-    }
-
-    // Valida che almeno un campo sia compilato
     if (!arrivalTime && !location && !person) {
         successMessage.textContent = 'Compila almeno un campo!';
         successMessage.style.color = '#e74c3c';
         return;
     }
 
-    // Salva i dati nel localStorage
-    if (arrivalTime) {
-        localStorage.setItem('arrivalTime', arrivalTime);
-    }
-    if (location) {
-        localStorage.setItem('location', location);
-    }
-    if (person) {
-        localStorage.setItem('person', person);
-    }
+    // Disattiva la modalità bici quando si salvano dati manuali
+    const bikeMode = false;
 
-    // Mostra messaggio di successo
-    successMessage.textContent = 'Dati salvati con successo!';
-    successMessage.style.color = '#27ae60';
-    
-    // Nascondi il messaggio dopo 3 secondi
-    setTimeout(() => {
-        successMessage.textContent = '';
-    }, 3000);
+    db.ref('orariwow').set({ arrivalTime, location, person, bikeMode })
+        .then(() => {
+            successMessage.textContent = 'Dati salvati con successo!';
+            successMessage.style.color = '#27ae60';
+            setTimeout(() => { successMessage.textContent = ''; }, 3000);
+        })
+        .catch(err => console.error(err));
 }
 
 function goToMain() {
