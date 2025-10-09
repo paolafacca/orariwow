@@ -4,29 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png" type="image/png">
-    <title>Admin </title>
+    <link rel="icon" href="icons8-unicorno-16.png" type="image/png">
+    <meta name="theme-color" content="#ff69b4">
+    <title>Admin</title>
     <link rel="stylesheet" href="./style.css">
 
-    
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyATk7LD_Unvco5lj8S_enVw5HAk",
-    authDomain: "orariwow.firebaseapp.com",
-    databaseURL: "https://orariwow-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "orariwow",
-    storageBucket: "orariwow.firebasestorage.app",
-    messagingSenderId: "186184869031",
-    appId: "1:186184869031:web:db9aa9b568a5ef1f1aa782"
-  };
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyATk7LD_Unvco5lj8S_enVw5HAkY49LH5k",
+            authDomain: "orariwow.firebaseapp.com",
+            databaseURL: "https://orariwow-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "orariwow",
+            storageBucket: "orariwow.firebasestorage.app",
+            messagingSenderId: "186184869031",
+            appId: "1:186184869031:web:db9aa9b568a5ef1f1aa782"
+        };
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-</script>
-
-    
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+    </script>
 </head>
 
 <body>
@@ -45,9 +44,12 @@
         <div id="adminPanel" class="admin-panel" style="display: none;">
             <h1>Pannello Admin</h1>
 
-            <div class="quick-action-section">
-                <button onclick="setBikeMode()" class="bike-button">
+            <div class="quick-action-section" style="display: flex; justify-content: space-between; gap: 10px;">
+                <button onclick="setBikeMode()" class="bike-button" style="flex:1;">
                     Bici
+                </button>
+                <button onclick="setAmorinoMode()" class="amorino-button" style="flex:1; background-color: #e91e63; color: white; border: none; border-radius: 10px; padding: 10px;">
+                    Amorino
                 </button>
             </div>
 
@@ -85,8 +87,6 @@
                         <option value="">Seleziona persona</option>
                         <option value="Papino">Papino</option>
                         <option value="Mammina">Mammina</option>
-
-
                         <option value="custom">Altro (scrivi manualmente)</option>
                     </select>
                     <input type="text" id="customPerson" placeholder="Inserisci nome personalizzato" style="display: none;">
@@ -105,5 +105,4 @@
 
 <script src="./admin.js"></script>
 </body>
-
 </html>
