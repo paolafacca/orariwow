@@ -103,7 +103,23 @@ function setAmorinoMode() {
     document.getElementById('personSelect').value = person;
     document.getElementById('backTodaySelect').value = backToday;
 
-    fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
+    fetch("https://orariwow.paola-milalove.workers.dev/api/set"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ arrivalTime, location, person, backToday, bikeMode
+        body: JSON.stringify({ arrivalTime, location, person, backToday, bikeMode})
+
+    document.getElementById('timeSelect').addEventListener('change', function() {
+    document.getElementById('customTime').style.display = this.value === 'custom' ? 'inline-block' : 'none';
+});
+document.getElementById('locationSelect').addEventListener('change', function() {
+    document.getElementById('customLocation').style.display = this.value === 'custom' ? 'inline-block' : 'none';
+});
+document.getElementById('personSelect').addEventListener('change', function() {
+    document.getElementById('customPerson').style.display = this.value === 'custom' ? 'inline-block' : 'none';
+});
+
+
+
+
+                            
+
