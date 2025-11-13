@@ -125,3 +125,20 @@ function goToMain() {
 }
 
 document.getElementById('password').addEventListener('keypress', e => { if(e.key === 'Enter') login(); });
+
+// Mostra input manuale quando selezioni "Altro"
+document.getElementById('timeSelect').addEventListener('change', function() {
+    document.getElementById('customTime').style.display = 
+        this.value === 'custom' ? 'inline-block' : 'none';
+});
+
+document.getElementById('locationSelect').addEventListener('change', function() {
+    document.getElementById('customLocation').style.display = 
+        this.value === 'custom' ? 'inline-block' : 'none';
+});
+
+document.getElementById('personSelect').addEventListener('change', function() {
+    document.getElementById('customPerson').style.display = 
+        this.value === 'custom' ? 'inline-block' : 'none';
+});
+
