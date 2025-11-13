@@ -43,7 +43,7 @@ navigator.serviceWorker.register('/sw.js').then(reg => {
         userVisibleOnly: true,
         applicationServerKey: 'BPPxpHGNfsgIMIEacsv-RWaAHEnS4g698i51K8lP9n7VfLP0D13E2oHmGdCB7YOfchL9ssBeScdHJXIj3eOihvM'
       }).then(sub => {
-        fetch('/api/set', {
+        fetch('https://orariwow.paola-milalove.workers.dev/api/set', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ subscription: sub })
@@ -52,4 +52,5 @@ navigator.serviceWorker.register('/sw.js').then(reg => {
     }
   });
 });
+
 
