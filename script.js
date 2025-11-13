@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     displayCurrentDate();
 
-    fetch("/get")
+    fetch("https://orariwow.paola-milalove.workers.dev/api/get")
       .then(res => res.json())
       .then(dati => {
         if (dati.bikeMode === true) {
