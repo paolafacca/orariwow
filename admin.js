@@ -32,9 +32,15 @@ function saveData() {
     const personSelect = document.getElementById('personSelect');
     const backTodaySelect = document.getElementById('backTodaySelect');
 
-    let arrivalTime = timeSelect.value === 'custom' ? document.getElementById('customTime').value.trim() : timeSelect.value;
-    let location = locationSelect.value === 'custom' ? document.getElementById('customLocation').value.trim() : locationSelect.value;
-    let person = personSelect.value === 'custom' ? document.getElementById('customPerson').value.trim() : personSelect.value;
+    let arrivalTime = timeSelect.value === 'custom' 
+        ? (document.getElementById('customTime').value.trim() || 'Altro') 
+        : timeSelect.value;
+    let location = locationSelect.value === 'custom' 
+        ? (document.getElementById('customLocation').value.trim() || 'Altro') 
+        : locationSelect.value;
+    let person = personSelect.value === 'custom' 
+        ? (document.getElementById('customPerson').value.trim() || 'Altro') 
+        : personSelect.value;
     let backToday = backTodaySelect.value;
 
     fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
@@ -49,7 +55,6 @@ function saveData() {
         successMessage.style.color = '#27ae60';
         setTimeout(() => { successMessage.textContent = ''; }, 3000);
 
-        // 🔔 Triggera il controllo notifica
         navigator.serviceWorker.ready.then(sw => {
             sw.sync.register('check-updates');
         });
@@ -81,7 +86,6 @@ function setBikeMode() {
         successMessage.style.color = '#27ae60';
         setTimeout(() => { successMessage.textContent = ''; }, 3000);
 
-        // 🔔 Triggera il controllo notifica
         navigator.serviceWorker.ready.then(sw => {
             sw.sync.register('check-updates');
         });
@@ -104,41 +108,4 @@ function setAmorinoMode() {
     fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ arrivalTime, location, person, backToday, bikeMode })
-    })
-    .then(res => res.json())
-    .then(() => {
-        const successMessage = document.getElementById('successMessage');
-        successMessage.textContent = 'Modalità Amorino attivata!';
-        successMessage.style.color = '#e91e63';
-        setTimeout(() => { successMessage.textContent = ''; }, 3000);
-
-        // 🔔 Triggera il controllo notifica
-        navigator.serviceWorker.ready.then(sw => {
-            sw.sync.register('check-updates');
-        });
-    });
-}
-
-function goToMain() {
-    window.location.href = 'index.html';
-}
-
-document.getElementById('password').addEventListener('keypress', e => { if(e.key === 'Enter') login(); });
-
-// Mostra input manuale quando selezioni "Altro"
-document.getElementById('timeSelect').addEventListener('change', function() {
-    document.getElementById('customTime').style.display = 
-        this.value === 'custom' ? 'inline-block' : 'none';
-});
-
-document.getElementById('locationSelect').addEventListener('change', function() {
-    document.getElementById('customLocation').style.display = 
-        this.value === 'custom' ? 'inline-block' : 'none';
-});
-
-document.getElementById('personSelect').addEventListener('change', function() {
-    document.getElementById('customPerson').style.display = 
-        this.value === 'custom' ? 'inline-block' : 'none';
-});
-
+        body: JSON.stringify({ arrivalTime, location, person, backToday,
