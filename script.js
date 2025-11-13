@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
           document.getElementById('location').textContent = dati.location || 'Trieste Airport';
           document.getElementById('person').textContent = dati.person || 'Papino';
         }
-        const torni = dati.backToday === "Sì" ? "Paola torna oggi" : "Paola non torna oggi";
-        document.getElementById('torniOggi').textContent = torni;
+        // Mostra esattamente il valore salvato in admin
+        document.getElementById('torniOggi').textContent = dati.backToday || "";
       });
 });
 
@@ -35,14 +35,14 @@ function goToAdmin() {
 
 setInterval(displayCurrentDate, 60000);
 
-navigator.serviceWorker.register('/sw.js').then(reg => {
+navigator.serviceWorker.register('./sw.js').then(reg => {
   Notification.requestPermission().then(permission => {
     if (permission === 'granted') {
       reg.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: 'BPPxpHGNfsgIMIEacsv-RWaAHEnS4g698i51K8lP9n7VfLP0D13E2oHmGdCB7YOfchL9ssBeScdHJXIj3eOihvM'
       }).then(sub => {
-        fetch('/api/set', {
+        fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ subscription: sub })
