@@ -50,6 +50,58 @@ function saveData() {
     });
 }
 
+// Funzione per il pulsante bici
+function setBikeMode() {
+    let arrivalTime = "";
+    let location = "Trieste";
+    let person = "";
+    let backToday = "No";
+    let bikeMode = true;
+
+    document.getElementById('timeSelect').value = arrivalTime;
+    document.getElementById('locationSelect').value = location;
+    document.getElementById('personSelect').value = person;
+    document.getElementById('backTodaySelect').value = backToday;
+
+    fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ arrivalTime, location, person, backToday, bikeMode })
+    }).then(res => res.json())
+      .then(() => {
+        const successMessage = document.getElementById('successMessage');
+        successMessage.textContent = 'Modalità bici attivata!';
+        successMessage.style.color = '#27ae60';
+        setTimeout(() => { successMessage.textContent = ''; }, 3000);
+      });
+}
+
+// Funzione per il pulsante Amorino
+function setAmorinoMode() {
+    let arrivalTime = "";
+    let location = "Trieste";
+    let person = "Amorino";
+    let backToday = "Sì";
+    let bikeMode = false;
+
+    document.getElementById('timeSelect').value = arrivalTime;
+    document.getElementById('locationSelect').value = location;
+    document.getElementById('personSelect').value = person;
+    document.getElementById('backTodaySelect').value = backToday;
+
+    fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ arrivalTime, location, person, backToday, bikeMode })
+    }).then(res => res.json())
+      .then(() => {
+        const successMessage = document.getElementById('successMessage');
+        successMessage.textContent = 'Modalità Amorino attivata!';
+        successMessage.style.color = '#e91e63';
+        setTimeout(() => { successMessage.textContent = ''; }, 3000);
+      });
+}
+
 function goToMain() {
     window.location.href = 'index.html';
 }
