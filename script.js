@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
           document.getElementById('location').textContent = dati.location || 'Trieste Airport';
           document.getElementById('person').textContent = dati.person || 'Papino';
         }
-        const torni = dati.torniOggi === "Sì" ? "Paola torna oggi" : "Paola non torna oggi";
+        const torni = dati.backToday === "Sì" ? "Paola torna oggi" : "Paola non torna oggi";
         document.getElementById('torniOggi').textContent = torni;
       });
 });
@@ -29,7 +29,6 @@ function displayCurrentDate() {
     document.getElementById('currentDate').textContent = now.toLocaleDateString('it-IT', options);
 }
 
-
 function goToAdmin() {
     window.location.href = 'admin.html';
 }
@@ -43,7 +42,7 @@ navigator.serviceWorker.register('/sw.js').then(reg => {
         userVisibleOnly: true,
         applicationServerKey: 'BPPxpHGNfsgIMIEacsv-RWaAHEnS4g698i51K8lP9n7VfLP0D13E2oHmGdCB7YOfchL9ssBeScdHJXIj3eOihvM'
       }).then(sub => {
-        fetch('https://orariwow.paola-milalove.workers.dev/api/set', {
+        fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ subscription: sub })
@@ -52,5 +51,3 @@ navigator.serviceWorker.register('/sw.js').then(reg => {
     }
   });
 });
-
-
