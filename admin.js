@@ -61,7 +61,6 @@ function saveData() {
     });
 }
 
-// Funzione per il pulsante bici
 function setBikeMode() {
     let arrivalTime = "";
     let location = "Trieste";
@@ -92,7 +91,6 @@ function setBikeMode() {
     });
 }
 
-// Funzione per il pulsante Amorino
 function setAmorinoMode() {
     let arrivalTime = "";
     let location = "Trieste";
@@ -108,4 +106,4 @@ function setAmorinoMode() {
     fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ arrivalTime, location, person, backToday,
+        body: JSON.stringify({ arrivalTime, location, person, backToday, bikeMode
