@@ -16,7 +16,7 @@ function login() {
 }
 
 function loadCurrentData() {
-    fetch("/get")
+    fetch("https://orariwow.paola-milalove.workers.dev/api/get")
       .then(res => res.json())
       .then(data => {
         document.getElementById('timeSelect').value = data.arrivalTime || '';
@@ -37,7 +37,7 @@ function saveData() {
     let person = personSelect.value === 'custom' ? document.getElementById('customPerson').value.trim() : personSelect.value;
     let torniOggi = torniSelect.value;
 
-    fetch("/set", {
+    fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ arrivalTime, location, person, bikeMode:false, torniOggi })
