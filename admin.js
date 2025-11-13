@@ -103,12 +103,26 @@ function setAmorinoMode() {
     document.getElementById('personSelect').value = person;
     document.getElementById('backTodaySelect').value = backToday;
 
-    fetch("https://orariwow.paola-milalove.workers.dev/api/set"), {
+    fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ arrivalTime, location, person, backToday, bikeMode})
+        body: JSON.stringify({ arrivalTime, location, person, backToday, bikeMode })
+    })
+    .then(res => res.json())
+    .then(() => {
+        const successMessage = document.getElementById('successMessage');
+        successMessage.textContent = 'Modalità Amorino attivata!';
+        successMessage.style.color = '#e91e63';
+        setTimeout(() => { successMessage.textContent = ''; }, 3000);
 
-    document.getElementById('timeSelect').addEventListener('change', function() {
+        navigator.serviceWorker.ready.then(sw => {
+            sw.sync.register('check-updates');
+        });
+    });
+}
+
+// Mostra input manuale quando selezioni "Altro"
+document.getElementById('timeSelect').addEventListener('change', function() {
     document.getElementById('customTime').style.display = this.value === 'custom' ? 'inline-block' : 'none';
 });
 document.getElementById('locationSelect').addEventListener('change', function() {
@@ -117,9 +131,3 @@ document.getElementById('locationSelect').addEventListener('change', function() 
 document.getElementById('personSelect').addEventListener('change', function() {
     document.getElementById('customPerson').style.display = this.value === 'custom' ? 'inline-block' : 'none';
 });
-
-
-
-
-                            
-
