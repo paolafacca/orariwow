@@ -22,7 +22,7 @@ function loadCurrentData() {
         document.getElementById('timeSelect').value = data.arrivalTime || '';
         document.getElementById('locationSelect').value = data.location || '';
         document.getElementById('personSelect').value = data.person || '';
-        document.getElementById('torniSelect').value = data.torniOggi || 'Sì';
+        document.getElementById('backTodaySelect').value = data.backToday || 'Sì';
       });
 }
 
@@ -30,17 +30,17 @@ function saveData() {
     const timeSelect = document.getElementById('timeSelect');
     const locationSelect = document.getElementById('locationSelect');
     const personSelect = document.getElementById('personSelect');
-    const torniSelect = document.getElementById('torniSelect');
+    const backTodaySelect = document.getElementById('backTodaySelect');
 
     let arrivalTime = timeSelect.value === 'custom' ? document.getElementById('customTime').value.trim() : timeSelect.value;
     let location = locationSelect.value === 'custom' ? document.getElementById('customLocation').value.trim() : locationSelect.value;
     let person = personSelect.value === 'custom' ? document.getElementById('customPerson').value.trim() : personSelect.value;
-    let torniOggi = torniSelect.value;
+    let backToday = backTodaySelect.value;
 
     fetch("https://orariwow.paola-milalove.workers.dev/api/set", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ arrivalTime, location, person, bikeMode:false, torniOggi })
+        body: JSON.stringify({ arrivalTime, location, person, bikeMode:false, backToday })
     }).then(res => res.json())
       .then(() => {
         const successMessage = document.getElementById('successMessage');
