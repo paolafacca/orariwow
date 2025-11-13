@@ -51,9 +51,12 @@ function saveData() {
     .then(res => res.json())
     .then(() => {
         const successMessage = document.getElementById('successMessage');
-        successMessage.textContent = 'Dati salvati con successo!';
+        successMessage.textContent = 'Dati aggiornati con successo!';
         successMessage.style.color = '#27ae60';
         setTimeout(() => { successMessage.textContent = ''; }, 3000);
+
+        // 🔄 Ricarica i dati aggiornati
+        loadCurrentData();
 
         navigator.serviceWorker.ready.then(sw => {
             sw.sync.register('check-updates');
@@ -85,6 +88,8 @@ function setBikeMode() {
         successMessage.style.color = '#27ae60';
         setTimeout(() => { successMessage.textContent = ''; }, 3000);
 
+        loadCurrentData();
+
         navigator.serviceWorker.ready.then(sw => {
             sw.sync.register('check-updates');
         });
@@ -114,6 +119,8 @@ function setAmorinoMode() {
         successMessage.textContent = 'Modalità Amorino attivata!';
         successMessage.style.color = '#e91e63';
         setTimeout(() => { successMessage.textContent = ''; }, 3000);
+
+        loadCurrentData();
 
         navigator.serviceWorker.ready.then(sw => {
             sw.sync.register('check-updates');
