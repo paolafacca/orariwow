@@ -1,5 +1,5 @@
-// Ascolta l'evento push inviato dal Worker
-self.addEventListener('push', event => {
+// Mostra le notifiche push (se mai inviate)
+self.addEventListener("push", (event) => {
   let data = {};
   if (event.data) {
     try {
@@ -12,19 +12,41 @@ self.addEventListener('push', event => {
   const title = data.title || "Aggiornamento";
   const options = {
     body: data.body || "Hai un nuovo aggiornamento",
-    icon: "icons8-unicorno-16.png",   // metti qui la tua icona
-    badge: "icons8-unicorno-16.png"   // opzionale, piccola icona
+    icon: "icons8-unicorno-16.png",
+    badge: "icons8-unicorno-16.png",
   };
 
-  event.waitUntil(
-    self.registration.showNotification(title, options)
-  );
+  event.waitUntil(self.registration.showNotification(title, options));
 });
 
-// Gestisce il click sulla notifica
-self.addEventListener('notificationclick', event => {
+// Quando clicchi la notifica
+self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  event.waitUntil(
-    clients.openWindow('/') // apre la tua pagina principale
-  );
+  event.waitUntil(clients.openWindow("/"));
+});
+
+// Controlla il KV e mostra la notifica aggiornata
+async function checkNotifications() {
+  try {
+    const res = await fetch("https://orariwow.paola-milalove.workers.dev/api/get");
+    const data = await res.json();
+    const lastNotification = data.lastNotification;
+    if (!lastNotification) return;
+
+    const { title, body } = JSON.parse(lastNotification);
+    self.registration.showNotification(title, {
+      body,
+      icon: "icons8-unicorno-16.png",
+      badge: "icons8-unicorno-16.png",
+    });
+  } catch (err) {
+    console.error("Errore:", err);
+  }
+}
+
+// Quando la pagina admin salva → esegue sync
+self.addEventListener("sync", (event) => {
+  if (event.tag === "check-updates") {
+    event.waitUntil(checkNotifications());
+  }
 });
