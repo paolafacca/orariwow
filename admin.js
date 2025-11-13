@@ -22,7 +22,7 @@ function loadCurrentData() {
         document.getElementById('timeSelect').value = data.arrivalTime || '';
         document.getElementById('locationSelect').value = data.location || '';
         document.getElementById('personSelect').value = data.person || '';
-        document.getElementById('backTodaySelect').value = data.backToday || 'Sì';
+        document.getElementById('backTodaySelect').value = data.backToday || '';
       });
 }
 
@@ -41,12 +41,18 @@ function saveData() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ arrivalTime, location, person, bikeMode:false, backToday })
-    }).then(res => res.json())
-      .then(() => {
+    })
+    .then(res => res.json())
+    .then(() => {
         const successMessage = document.getElementById('successMessage');
         successMessage.textContent = 'Dati salvati con successo!';
         successMessage.style.color = '#27ae60';
         setTimeout(() => { successMessage.textContent = ''; }, 3000);
+
+        // 🔔 Triggera il controllo notifica
+        navigator.serviceWorker.ready.then(sw => {
+            sw.sync.register('check-updates');
+        });
     });
 }
 
@@ -55,7 +61,7 @@ function setBikeMode() {
     let arrivalTime = "";
     let location = "Trieste";
     let person = "";
-    let backToday = "No";
+    let backToday = "Sì";
     let bikeMode = true;
 
     document.getElementById('timeSelect').value = arrivalTime;
@@ -67,13 +73,19 @@ function setBikeMode() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ arrivalTime, location, person, backToday, bikeMode })
-    }).then(res => res.json())
-      .then(() => {
+    })
+    .then(res => res.json())
+    .then(() => {
         const successMessage = document.getElementById('successMessage');
         successMessage.textContent = 'Modalità bici attivata!';
         successMessage.style.color = '#27ae60';
         setTimeout(() => { successMessage.textContent = ''; }, 3000);
-      });
+
+        // 🔔 Triggera il controllo notifica
+        navigator.serviceWorker.ready.then(sw => {
+            sw.sync.register('check-updates');
+        });
+    });
 }
 
 // Funzione per il pulsante Amorino
@@ -81,7 +93,7 @@ function setAmorinoMode() {
     let arrivalTime = "";
     let location = "Trieste";
     let person = "Amorino";
-    let backToday = "Sì";
+    let backToday = "No";
     let bikeMode = false;
 
     document.getElementById('timeSelect').value = arrivalTime;
@@ -93,13 +105,19 @@ function setAmorinoMode() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ arrivalTime, location, person, backToday, bikeMode })
-    }).then(res => res.json())
-      .then(() => {
+    })
+    .then(res => res.json())
+    .then(() => {
         const successMessage = document.getElementById('successMessage');
         successMessage.textContent = 'Modalità Amorino attivata!';
         successMessage.style.color = '#e91e63';
         setTimeout(() => { successMessage.textContent = ''; }, 3000);
-      });
+
+        // 🔔 Triggera il controllo notifica
+        navigator.serviceWorker.ready.then(sw => {
+            sw.sync.register('check-updates');
+        });
+    });
 }
 
 function goToMain() {
