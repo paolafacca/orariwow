@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="icons8-unicorn-neon-70.png" type="image/png">
+    <link rel="apple-touch-icon" href="icons8-unicorn-neon-96.png">
+    <meta name="theme-color" content="#ff69b4">
+    <title>Admin</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+<div class="container">
+    <div class="admin-card">
+        <div id="loginSection" class="login-section">
+            <h1>Accesso Admin</h1>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Inserisci la password">
+            </div>
+            <button onclick="login()" class="login-button">Accedi</button>
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+
+        <div id="adminPanel" class="admin-panel" style="display: none;">
+            <h1>Pannello Admin</h1>
+
+            <div class="quick-action-section" style="display: flex; justify-content: space-between; gap: 10px;">
+                <button onclick="setBikeMode()" class="bike-button" style="flex:1;">Bici</button>
+                <button onclick="setAmorinoMode()" class="amorino-button" style="flex:1; background-color: #e91e63; color: white;">Amorino</button>
+            </div>
+
+            <div class="divider"><span>oppure imposta manualmente:</span></div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="timeSelect">Orario di arrivo:</label>
+                    <select id="timeSelect">
+                        <option value="">Seleziona orario</option>
+                        <option value="19:45">19:45</option>
+                        <option value="18:45">18:45</option>
+                        <option value="12:45">12:45</option>
+                        <option value="custom">Altro (scrivi manualmente)</option>
+                    </select>
+                    <input type="text" id="customTime" placeholder="Inserisci orario personalizzato" style="display:none;">
+                </div>
+
+                <div class="form-group">
+                    <label for="locationSelect">Dove:</label>
+                    <select id="locationSelect">
+                        <option value="">Seleziona luogo</option>
+                        <option value="Trieste Airport">Trieste Airport</option>
+                        <option value="Ronchi nord">Ronchi nord</option>
+                        <option value="custom">Altro (scrivi manualmente)</option>
+                    </select>
+                    <input type="text" id="customLocation" placeholder="Inserisci luogo personalizzato" style="display:none;">
+                </div>
+
+                <div class="form-group">
+                    <label for="personSelect">Chi mi viene a prendere:</label>
+                    <select id="personSelect">
+                        <option value="">Seleziona persona</option>
+                        <option value="Papino">Papino</option>
+                        <option value="Mammina">Mammina</option>
+                        <option value="custom">Altro (scrivi manualmente)</option>
+                    </select>
+                    <input type="text" id="customPerson" placeholder="Inserisci nome personalizzato" style="display:none;">
+                </div>
+
+                <div class="form-group">
+                    <label for="backTodaySelect">Torni oggi?</label>
+                    <select id="backTodaySelect">
+                        <option value="Sì">Sì</option>
+                        <option value="No, domani">No, domani</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+
+                <div class="button-group">
+                    <button onclick="saveData()" class="save-button">Salva Modifiche</button>
+                    <button onclick="goToMain()" class="back-button">Torna alla Home</button>
+                </div>
+
+                <div id="successMessage" class="success-message"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./admin.js"></script>
+</body>
+</html>

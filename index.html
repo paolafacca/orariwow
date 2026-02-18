@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="icons8-unicorn-neon-70.png" type="image/png">
+    <link rel="apple-touch-icon" href="icons8-unicorn-neon-96.png">
+    
+    <title>Orari wow</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+<div class="container">
+    <div class="main-card">
+        <h1>Buonasera carissimi</h1>
+
+        <div class="date-section">
+            <div class="date-display">
+                <span id="currentDate">Caricamento...</span>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-item">
+                <div class="info-label">Orario di arrivo:</div>
+                <div class="info-value" id="arrivalTime">19:45</div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Dove:</div>
+                <div class="info-value" id="location">Trieste Airport</div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Chi mi viene a prendere:</div>
+                <div class="info-value" id="person">Papino</div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Torni oggi?</div>
+                <div class="info-value" id="torniOggi">Sì</div>
+            </div>
+        </div>
+
+        <button class="admin-button" onclick="goToAdmin()">
+            Sei Paola?
+        </button>
+    </div>
+
+    <!-- ✅ Pulsante per attivare notifiche -->
+    <button id="enableNotifications">Attiva notifiche</button>
+    <div id="notifStatus"></div>
+
+</div>
+
+<script src="./script.js"></script>
+</body>
+</html>
